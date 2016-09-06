@@ -1,0 +1,5 @@
+<manifest package="com.daimajia.swipe"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application />
+    <uses-sdk tools:overrideLibrary="android.support.v7.recyclerview, android.support.compat, android.support.coreui, android.support.v4, android.support.coreutils, android.support.mediacompat, android.support.fragment"/>
+</manifest>
