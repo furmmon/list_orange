@@ -5,13 +5,18 @@ repositories {
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    compileSdkVersion 24
+    //Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+    buildToolsVersion "24.0.2"
+    //project.ANDROID_BUILD_TOOLS_VERSION
     defaultConfig {
-        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+        minSdkVersion 23
+        //Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
+        targetSdkVersion 24
+        //Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
         versionName project.VERSION_NAME
-        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionCode 1
+        //Integer.parseInt(project.VERSION_CODE)
     }
     buildTypes {
         release {
