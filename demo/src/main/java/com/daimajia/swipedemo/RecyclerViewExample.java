@@ -22,6 +22,10 @@ import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator;
 
 public class RecyclerViewExample extends Activity {
 
+    /* Cette petite ligne a été ajoutée par Vincent
+    Test de commit
+    */
+
     /**
      * RecyclerView: The new recycler view replaces the list view. Its more modular and therefore we
      * must implement some of the functionality ourselves and attach it to our recyclerview.
