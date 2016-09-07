@@ -29,7 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Delete Item?"
+                android:text="No way?"
                 android:textColor="#fff"
                 android:textSize="17sp" />
 
@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="4"
                 android:background="#ffffff"
-                android:text="Yes,Delete"
+                android:text="Delete bitch"
                 android:textColor="#FF5534" />
         </LinearLayout>
 
@@ -48,7 +48,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/item_selector"
             android:elevation="5dp"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:weightSum="1"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/position"
@@ -60,6 +62,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:tag="Hover"/>
+
+            <TextView
+                android:id="@+id/text_data2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="blablabla"/>
+
         </LinearLayout>
     </com.daimajia.swipe.SwipeLayout>
 </LinearLayout>

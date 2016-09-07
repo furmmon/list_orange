@@ -82,13 +82,15 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 Toast.makeText(view.getContext(), "Want to delete? " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
 
 
-               /* mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+                mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 mDataset.remove(position);
                 notifyItemRemoved(position);
+
                 notifyItemRangeChanged(position, mDataset.size());
+
                 mItemManger.closeAllItems();
                 Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
-                */
+
             }
         });
         viewHolder.textViewPos.setText((position + 1) + ".");
