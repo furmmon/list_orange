@@ -3,6 +3,7 @@ package com.daimajia.swipedemo.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapter.SimpleViewHolder> {
 
-    public class SimpleViewHolder extends RecyclerView.ViewHolder {
+    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
         LinearLayout upperLayout;
         TextView textViewPos;
@@ -85,12 +86,18 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
             }
         });
+        /*
+        Double click on each element of the list
+         */
         viewHolder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {
                 Toast.makeText(mContext, "DoubleClick" + position, Toast.LENGTH_SHORT).show();
             }
         });
+        /*
+        Click on the sms image to send a sms
+         */
         viewHolder.imagesms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,11 +107,14 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 view.getContext().startActivity(smsIntent);
             }
         });
-        viewHolder.imagephone.setOnClickListener(new View.OnClickListener() {
+        /*
+        Click on the phone image to call
+         */
+        viewHolder.imagephone.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(mContext, "Phone call " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
                 Uri phoneNumber = Uri.parse("tel:0606060606");
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
                 view.getContext().startActivity(callIntent);
@@ -112,10 +122,15 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             }
         });
 
+        /*
+        Long press click to get access to the profile of the contact
+         */
+
         viewHolder.swipeLayout.setOnLongClickListener(new SwipeLayout.LongClickListener() {
 
             public void onLongPress(SwipeLayout layout, boolean surface) {
-
+                //Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                //this.getContext().startActivityForResult(intent, PICK_CONTACT);
                 Toast.makeText(mContext,"Long click "+position, Toast.LENGTH_LONG).show();
             }
         });
