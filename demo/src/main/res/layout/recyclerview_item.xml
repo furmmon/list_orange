@@ -64,22 +64,24 @@
                 android:tag="Hover"/>
 
             <ImageView
-                android:id="@+id/phone"
-                android:layout_width="50dp"
-                android:layout_height="75dp"
-
-                android:src="@drawable/phone"
-                android:clickable="true"
-                android:layout_marginLeft="200dp" />
-
-            <ImageView
                 android:id="@+id/sms"
                 android:layout_width="50dp"
                 android:layout_height="75dp"
 
                 android:src="@drawable/sms"
                 android:clickable="true"
-                android:layout_marginLeft="200dp" />
+                android:layout_marginLeft="100dp" />
+
+            <ImageView
+                android:id="@+id/phone"
+                android:layout_width="50dp"
+                android:layout_height="75dp"
+
+                android:src="@drawable/phone"
+                android:clickable="true"
+                android:layout_marginLeft="50dp" />
+
+
 
 
         </LinearLayout>

@@ -28,6 +28,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         TextView textViewData;
         Button buttonDelete;
         ImageView imagesms;
+        ImageView imagephone;
 
         public SimpleViewHolder(View itemView) {
             super(itemView);
@@ -36,6 +37,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             textViewData = (TextView) itemView.findViewById(R.id.text_data);
             buttonDelete = (Button) itemView.findViewById(R.id.delete);
             imagesms = (ImageView) itemView.findViewById(R.id.sms);
+            imagephone = (ImageView) itemView.findViewById(R.id.phone);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,6 +85,12 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Message sent "+position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        viewHolder.imagephone.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
             }
         });
 
