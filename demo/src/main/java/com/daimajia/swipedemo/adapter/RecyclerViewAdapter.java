@@ -34,7 +34,6 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
         LinearLayout upperLayout;
-        TextView textViewPos;
         TextView textViewData;
         Button buttonDelete;
         ImageView imagesms;
@@ -44,7 +43,6 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             super(itemView);
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe);
             upperLayout = (LinearLayout) itemView.findViewById(R.id.upperLayout);
-            textViewPos = (TextView) itemView.findViewById(R.id.position);
             textViewData = (TextView) itemView.findViewById(R.id.text_data);
             buttonDelete = (Button) itemView.findViewById(R.id.delete);
             imagesms = (ImageView) itemView.findViewById(R.id.sms);
@@ -76,11 +74,21 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         return new SimpleViewHolder(view);
     }
 
+
+
+
+
+
+
+
+
     @Override
     public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position) {
         String item = mDataset.get(position);
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
         viewHolder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
+
+
             @Override
             public void onOpen(SwipeLayout layout) {
                 YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
@@ -159,7 +167,6 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
             }
         });
-        viewHolder.textViewPos.setText((position + 1) + ".");
         viewHolder.textViewData.setText(item);
         mItemManger.bind(viewHolder.itemView, position);
     }
