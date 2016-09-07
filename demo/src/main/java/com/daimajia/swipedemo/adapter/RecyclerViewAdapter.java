@@ -87,19 +87,24 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Message sent "+position, Toast.LENGTH_SHORT).show();
+                Uri phoneNumber = Uri.parse("sms:0606060606");
+                Intent smsIntent = new Intent(Intent.ACTION_SEND, phoneNumber);
+                view.getContext().startActivity(smsIntent);
             }
         });
         viewHolder.imagephone.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                /*Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
                 Uri phoneNumber = Uri.parse("tel:0606060606");
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
-                startActivity(callIntent);
-                */
-                Uri telephone = Uri.parse("tel:0606060606");
+                view.getContext().startActivity(callIntent);
+
+                /*Uri telephone = Uri.parse("tel:0606060606");
                 Intent secondeActivite = new Intent(Intent.ACTION_DIAL, telephone);
                 view.getContext().startActivity(secondeActivite);
+                */
 
             }
         });
