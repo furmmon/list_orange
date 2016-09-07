@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         TextView textViewPos;
         TextView textViewData;
         Button buttonDelete;
+        ImageView imagesms;
 
         public SimpleViewHolder(View itemView) {
             super(itemView);
@@ -33,6 +35,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             textViewPos = (TextView) itemView.findViewById(R.id.position);
             textViewData = (TextView) itemView.findViewById(R.id.text_data);
             buttonDelete = (Button) itemView.findViewById(R.id.delete);
+            imagesms = (ImageView) itemView.findViewById(R.id.sms);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,6 +79,14 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 Toast.makeText(mContext, "DoubleClick"+position, Toast.LENGTH_SHORT).show();
             }
         });
+        viewHolder.imagesms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Message sent "+position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
