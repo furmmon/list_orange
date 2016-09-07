@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="4"
                 android:background="#ffffff"
-                android:text="Delete bitch"
+                android:text="Delete this contact ?"
                 android:textColor="#FF5534" />
         </LinearLayout>
 
@@ -62,6 +62,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tag="Hover"/>
+
+            <ImageView
+                android:id="@+id/phone"
+                android:layout_width="50dp"
+                android:layout_height="75dp"
+
+                android:src="@drawable/phone"
+                android:clickable="true"
+                android:layout_marginLeft="200dp" />
 
             <ImageView
                 android:id="@+id/sms"

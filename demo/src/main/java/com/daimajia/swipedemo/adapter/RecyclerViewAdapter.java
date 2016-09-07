@@ -90,10 +90,25 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Want to delete? " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(view.getContext(), "Want to delete? " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
 
-
+                /*System.out.println("mDataset :");
+                System.out.println(mDataset.toString());
+                System.out.println("position : ");
+                System.out.println(position);
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+                mDataset.remove(position);
+                System.out.println("notifyItemRemovedPosition");
+                notifyItemRemoved(position);
+                //notifyItemRangeChanged(position, mDataset.size());
+                System.out.println("mDataset2 :");
+                System.out.println(mDataset.toString());
+                mItemManger.closeAllItems();
+                Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                System.out.println("After notifyItemRemovedPosition");*/
+
+
+                //mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 mDataset.remove(position);
                 notifyItemRemoved(position);
 
