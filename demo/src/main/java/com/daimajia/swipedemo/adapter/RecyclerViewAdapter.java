@@ -1,6 +1,8 @@
 package com.daimajia.swipedemo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,7 +92,15 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         viewHolder.imagephone.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
+                Uri phoneNumber = Uri.parse("tel:0606060606");
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
+                startActivity(callIntent);
+                */
+                Uri telephone = Uri.parse("tel:0606060606");
+                Intent secondeActivite = new Intent(Intent.ACTION_DIAL, telephone);
+                view.getContext().startActivity(secondeActivite);
+
             }
         });
 
