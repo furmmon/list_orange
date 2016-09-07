@@ -101,11 +101,6 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
                 view.getContext().startActivity(callIntent);
 
-                /*Uri telephone = Uri.parse("tel:0606060606");
-                Intent secondeActivite = new Intent(Intent.ACTION_DIAL, telephone);
-                view.getContext().startActivity(secondeActivite);
-                */
-
             }
         });
 

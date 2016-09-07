@@ -41,6 +41,7 @@ public class RecyclerViewExample extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        //TODO : Version ??
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getActionBar();
             if (actionBar != null) {
