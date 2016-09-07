@@ -111,15 +111,13 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             }
         });
 
-        /*ViewHolder.swipeLayout.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        viewHolder.swipeLayout.setOnLongClickListener(new SwipeLayout.LongClickListener() {
 
-            public boolean onItemLongClick(AdapterView<?> arg0, View v,
-                                           int index, long arg3) {
+            public void onLongPress(SwipeLayout layout, boolean surface) {
 
-                Toast.makeText(list.this,"Long click "+position, Toast.LENGTH_LONG).show();
-                return false;
+                Toast.makeText(mContext,"Long click "+position, Toast.LENGTH_LONG).show();
             }
-        });*/
+        });
 
 
         viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {

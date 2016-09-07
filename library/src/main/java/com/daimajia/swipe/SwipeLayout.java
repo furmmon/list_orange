@@ -55,6 +55,7 @@ public class SwipeLayout extends FrameLayout {
     private Map<View, Rect> mViewBoundCache = new HashMap<>();//save all children's bound, restore in onLayout
 
     private DoubleClickListener mDoubleClickListener;
+    private LongClickListener mLongClicklistener;
 
     private boolean mSwipeEnabled = true;
     private boolean[] mSwipesEnabled = new boolean[]{true, true, true, true};
@@ -1212,6 +1213,21 @@ public class SwipeLayout extends FrameLayout {
             }
             return true;
         }
+
+
+        public void onLongPress(MotionEvent e){
+            if (mLongClicklistener != null){View target;
+                View bottom = getCurrentBottomView();
+                View surface = getSurfaceView();
+                if (bottom != null && e.getX() > bottom.getLeft() && e.getX() < bottom.getRight()
+                        && e.getY() > bottom.getTop() && e.getY() < bottom.getBottom()) {
+                    target = bottom;
+                } else {
+                    target = surface;
+                }
+                mLongClicklistener.onLongPress(SwipeLayout.this, target == surface);
+            }
+        }
     }
 
     /**
@@ -1548,6 +1564,14 @@ public class SwipeLayout extends FrameLayout {
 
     private int dp2px(float dp) {
         return (int) (dp * getContext().getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public void setOnLongClickListener(LongClickListener longClickListener) {
+        mLongClicklistener = longClickListener;
+    }
+
+    public interface LongClickListener {
+        void onLongPress(SwipeLayout layout, boolean surface);
     }
 
 
