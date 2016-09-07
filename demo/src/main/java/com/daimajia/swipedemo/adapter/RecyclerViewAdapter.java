@@ -4,12 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
+        LinearLayout upperLayout;
         TextView textViewPos;
         TextView textViewData;
         Button buttonDelete;
@@ -35,6 +41,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         public SimpleViewHolder(View itemView) {
             super(itemView);
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe);
+            upperLayout = (LinearLayout) itemView.findViewById(R.id.upperLayout);
             textViewPos = (TextView) itemView.findViewById(R.id.position);
             textViewData = (TextView) itemView.findViewById(R.id.text_data);
             buttonDelete = (Button) itemView.findViewById(R.id.delete);
@@ -104,6 +111,16 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             }
         });
 
+        /*ViewHolder.swipeLayout.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                                           int index, long arg3) {
+
+                Toast.makeText(list.this,"Long click "+position, Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });*/
+
 
         viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,14 +143,14 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 System.out.println("After notifyItemRemovedPosition");*/
 
 
-                //mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+                /*mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 mDataset.remove(position);
                 notifyItemRemoved(position);
 
                 notifyItemRangeChanged(position, mDataset.size());
 
                 mItemManger.closeAllItems();
-                Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();*/
 
             }
         });
