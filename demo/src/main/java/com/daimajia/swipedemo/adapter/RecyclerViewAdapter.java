@@ -73,18 +73,22 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         viewHolder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {
-                Toast.makeText(mContext, "DoubleClick", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "DoubleClick"+position, Toast.LENGTH_SHORT).show();
             }
         });
         viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+                Toast.makeText(view.getContext(), "Want to delete? " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+
+
+               /* mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 mDataset.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, mDataset.size());
                 mItemManger.closeAllItems();
                 Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                */
             }
         });
         viewHolder.textViewPos.setText((position + 1) + ".");
