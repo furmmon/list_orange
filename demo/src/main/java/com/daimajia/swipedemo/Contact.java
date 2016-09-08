@@ -6,14 +6,12 @@ package com.daimajia.swipedemo;
 public class Contact {
 
     protected String firstName;
-    protected String lastName;
     protected String phoneNumber;
     protected String id;
 
 
-    public void Contact(String firstName, String lastName, String phoneNumber){
+    public void Contact(String firstName, String phoneNumber){
         this.firstName = firstName;
-        this.lastName = lastName;
         this.phoneNumber = phoneNumber;
     }
 
@@ -23,14 +21,6 @@ public class Contact {
 
     public void setFirstName(String s){
         this.firstName = s;
-    }
-
-    public String getLastName(){
-        return this.lastName;
-    }
-
-    public void setLastName(String s){
-        this.lastName = s;
     }
 
     public String getPhoneNumber(){
