@@ -2,9 +2,14 @@ package com.daimajia.swipedemo;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +22,7 @@ import com.daimajia.swipedemo.adapter.util.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator;
 
@@ -39,6 +45,7 @@ public class RecyclerViewExample extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
         setContentView(R.layout.recyclerview);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         //TODO : Version ??
@@ -57,14 +64,48 @@ public class RecyclerViewExample extends Activity {
         recyclerView.setItemAnimator(new FadeInLeftAnimator());
 
         // Adapter:
-        String[] adapterData = new String[]{"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia"};
-        mDataSet = new ArrayList<String>(Arrays.asList(adapterData));
+        //String[] adapterData = new String[]{"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia"};
+        mDataSet = getAll(this);
+                //new ArrayList<String>(Arrays.asList(adapterData));
+        mAdapter = new RecyclerViewAdapter(this, mDataSet);
+        ((RecyclerViewAdapter) mAdapter).setMode(Attributes.Mode.Single);
+        recyclerView.setAdapter(mAdapter);
+
+        /* Listeners */
+        //recyclerView.setOnScrollListener(onScrollListener);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setContentView(R.layout.recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        //TODO : Version ??
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle("RecyclerView");
+            }
+        }
+
+        // Layout Managers:
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Item Decorator:
+        recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
+        recyclerView.setItemAnimator(new FadeInLeftAnimator());
+
+        // Adapter:
+        mDataSet = getContacts();
         mAdapter = new RecyclerViewAdapter(this, mDataSet);
         ((RecyclerViewAdapter) mAdapter).setMode(Attributes.Mode.Single);
         recyclerView.setAdapter(mAdapter);
 
         /* Listeners */
         recyclerView.setOnScrollListener(onScrollListener);
+
+
     }
 
     /**
@@ -83,6 +124,32 @@ public class RecyclerViewExample extends Activity {
             // Could hide open views here if you wanted. //
         }
     };
+
+
+    public  ArrayList<String> getContacts() {
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+        Cursor people = getContentResolver().query(uri, projection, null, null, null);
+
+        int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+        int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        ArrayList<String> phones = new ArrayList<String>();
+        ArrayList<String> contactnames = new ArrayList<String>();
+
+        people.moveToFirst();
+        do {
+            String name   = people.getString(indexName);
+            String number = people.getString(indexNumber);
+
+            phones.add(number);
+            contactnames.add(name);
+        } while (people.moveToNext());
+        return contactnames;
+
+
+    }
 
 
 }
