@@ -26,6 +26,9 @@ public class DBHandler extends SQLiteOpenHelper{
     private static final String KEY_ID="id";
     private static final String KEY_NAME="name";
     private static final String KEY_PHONE="phone";
+    private static final String KEY_CONTACTID="contactid";
+
+
 
     public DBHandler(Context context){
         super(context, DATABASE_NAME,null,DATABASE_VERSION);
@@ -35,7 +38,7 @@ public class DBHandler extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db){
         String CREATE_CONTACTS_TABLE="CREATE TABLE"+TABLE_CONTACTS+"("
                 +KEY_ID+"INTEGER PRIMARY KEY,"+KEY_NAME+"TEXT,"+KEY_PHONE
-                +"TEXT"+")";
+                +"TEXT"+KEY_CONTACTID+"TEXT"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -55,6 +58,7 @@ public class DBHandler extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, contact.getFirstName());
         values.put(KEY_PHONE, contact.getPhoneNumber());
+        values.put(KEY_CONTACTID, contact.getId());
         //Ajout de la colonne
         db.insert(TABLE_CONTACTS, null, values);
         db.close();
@@ -73,9 +77,10 @@ public class DBHandler extends SQLiteOpenHelper{
         if(cursor.moveToFirst()){
             do{
                 Contact contact = new Contact();
-                contact.setId(cursor.getString(0));
                 contact.setFirstName(cursor.getString(1));
                 contact.setPhoneNumber(cursor.getString(2));
+                contact.setId(cursor.getString(3));
+
                 //Ajout du contact à la liste
                 contactList.add(contact);
             } while (cursor.moveToNext());
