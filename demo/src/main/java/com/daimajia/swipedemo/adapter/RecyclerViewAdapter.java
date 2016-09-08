@@ -77,11 +77,11 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
         String str = "OBJECT";
         for(int i = 0; i<objects.size(); i++){
-            str+="["+objects.get(i).getFirstName()+", "+objects.get(i).getLastName()+", "+objects.get(i).getPhoneNumber()+", "+objects.get(i).getId()+"]\n";
+            str+="["+objects.get(i).getFirstName()+", "+objects.get(i).getPhoneNumber()+", "+objects.get(i).getId()+"]\n";
         }
         str += "mDATA";
         for(int i = 0; i<mData.size(); i++){
-            str+="["+mData.get(i).getFirstName()+", "+mData.get(i).getLastName()+", "+mData.get(i).getPhoneNumber()+", "+mData.get(i).getId()+"]\n";
+            str+="["+mData.get(i).getFirstName()+", "+mData.get(i).getPhoneNumber()+", "+mData.get(i).getId()+"]\n";
         }
 
         Log.v("STRING",str);
@@ -169,20 +169,19 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             public void onLongPress(View view) {
 
                 // Code pour aller vers un contact en particulier
-                // MAIS CE CODE NE FONCTIONNE PAS (ENCORE !)
-                /*
+
                 Intent goContactIntent = new Intent(Intent.ACTION_VIEW);
                 String contactID = mData.get(position).getId();
                 Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, contactID);
                 Toast.makeText(mContext,"uri : "+uri, Toast.LENGTH_LONG).show();
                 goContactIntent.setData(uri);
                 view.getContext().startActivity(goContactIntent);
-                */
 
 
-                // Code pour aller vers contact
+                // Code pour aller vers Contacts
                 // Mais pas pour aller sur un profil en particulier
-
+                // Fonctionne mais on en a pas besoin actuellement
+                /*
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName("com.android.contacts", "com.android.contacts.DialtactsContactsEntryActivity"));
                 intent.setAction("android.intent.action.MAIN");
@@ -193,6 +192,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 Toast.makeText(mContext,"uri : "+uri, Toast.LENGTH_LONG).show();
                 intent.setData(uri);
                 view.getContext().startActivity(intent);
+                */
 
             }
         });

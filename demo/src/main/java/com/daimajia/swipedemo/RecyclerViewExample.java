@@ -109,14 +109,14 @@ public class RecyclerViewExample extends Activity {
 
         //Récupération des données
         String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone._ID};
+                ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.RawContacts.CONTACT_ID};
 
         //Initialisation du curseur
         Cursor people = getContentResolver().query(uri, projection, null, null, null);
 
         int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-        int indexId = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
+        int indexId = people.getColumnIndex(ContactsContract.RawContacts.CONTACT_ID);
 
         ArrayList<Contact> contacts = new ArrayList<Contact>();
 
