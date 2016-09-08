@@ -120,7 +120,7 @@ public class RecyclerViewExample extends Activity {
 
         ArrayList<Contact> contacts = new ArrayList<Contact>();
 
-
+        //Mise en forme des données
         people.moveToFirst();
         do {
             String name   = people.getString(indexName);
