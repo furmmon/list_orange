@@ -46,34 +46,6 @@ public class RecyclerViewExample extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
-        setContentView(R.layout.recyclerview);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        //TODO : Version ??
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            ActionBar actionBar = getActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle("RecyclerView");
-            }
-        }
-
-        // Layout Managers:
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Item Decorator:
-        recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
-        recyclerView.setItemAnimator(new FadeInLeftAnimator());
-
-        // Adapter:
-        //String[] adapterData = new String[]{"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia"};
-        mDataSet = getAll(this);
-                //new ArrayList<String>(Arrays.asList(adapterData));
-        mAdapter = new RecyclerViewAdapter(this, mDataSet);
-        ((RecyclerViewAdapter) mAdapter).setMode(Attributes.Mode.Single);
-        recyclerView.setAdapter(mAdapter);
-
-        /* Listeners */
-        //recyclerView.setOnScrollListener(onScrollListener);
 
     }
 
@@ -127,32 +99,43 @@ public class RecyclerViewExample extends Activity {
     };
 
 
-    public  ArrayList<Contact> getContacts() {
-        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER};
 
+    //Réccupération de la liste de contact
+
+
+    public  ArrayList<Contact> getContacts() {
+        //Adresse de la table dans la base de donnée
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+
+        //Récupération des données
+        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone._ID};
+
+        //Initialisation du curseur
         Cursor people = getContentResolver().query(uri, projection, null, null, null);
 
         int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        int indexId = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
 
         ArrayList<Contact> contacts = new ArrayList<Contact>();
 
-        //ArrayList<String> phones = new ArrayList<String>();
-        //ArrayList<String> contactnames = new ArrayList<String>();
 
         people.moveToFirst();
         do {
             String name   = people.getString(indexName);
             String number = people.getString(indexNumber);
+            String contactid = people.getString(indexId);
 
-            Contact banane = new Contact();
+            Contact contact1 = new Contact();
 
-            banane.setFirstName(name);
-            banane.setPhoneNumber(number);
+            contact1.setFirstName(name);
+            contact1.setPhoneNumber(number);
+            contact1.setId(contactid);
 
-            contacts.add(banane);
+
+            contacts.add(contact1);
+
         } while (people.moveToNext());
 
         return contacts;

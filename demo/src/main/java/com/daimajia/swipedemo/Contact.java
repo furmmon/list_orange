@@ -8,6 +8,7 @@ public class Contact {
     protected String firstName;
     protected String lastName;
     protected String phoneNumber;
+    protected String id;
 
 
     public void Contact(String firstName, String lastName, String phoneNumber){
@@ -38,6 +39,14 @@ public class Contact {
 
     public void setPhoneNumber(String s){
         this.phoneNumber = s;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String s){
+        this.id = s;
     }
 
 }

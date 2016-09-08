@@ -61,21 +61,19 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
     private Context mContext;
     private ArrayList<String> mDataset;
-    private ArrayList<String> mDatasetphone;
+    private ArrayList<Contact> mData;
 
     //protected SwipeItemMangerImpl mItemManger = new SwipeItemMangerImpl(this);
 
     public RecyclerViewAdapter(Context context, ArrayList<Contact> objects) {
         this.mContext = context;
+        this.mData = objects;
+
         ArrayList <String> noms = new ArrayList<String>();
-        ArrayList <String> phones = new ArrayList<String>();
         for (int i=0; i<objects.size();++i){
             noms.add(objects.get(i).getFirstName());
-            phones.add(objects.get(i).getPhoneNumber());
-
         }
         this.mDataset = noms;
-        this.mDatasetphone = phones;
 
     }
 
@@ -121,7 +119,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Message sent " + position, Toast.LENGTH_SHORT).show();
-                Uri phoneNumber = Uri.parse("sms:"+mDatasetphone.get(position));
+                Uri phoneNumber = Uri.parse("sms:"+mData.get(position).getPhoneNumber());
                 Intent smsIntent = new Intent(Intent.ACTION_SEND, phoneNumber);
                 view.getContext().startActivity(smsIntent);
             }
@@ -134,7 +132,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             public void onClick(View view) {
 
                 Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
-                Uri phoneNumber = Uri.parse("tel:"+mDatasetphone.get(position));
+                Uri phoneNumber = Uri.parse("tel:"+mData.get(position).getPhoneNumber());
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
                 view.getContext().startActivity(callIntent);
 
@@ -161,21 +159,11 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
 
                 mDataset.remove(position);
-                mDatasetphone.remove(position);
+                mData.remove(position);
                 notifyItemRangeChanged(position, mDataset.size());
                 notifyDatasetChanged();
                 mItemManger.closeAllItems();
 
-
-                //mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-                //notifyItemRemoved(position);
-
-                //mDataset.remove(position);
-
-                //notifyItemRangeChanged(position, mDataset.size());
-
-                //mItemManger.closeAllItems();
-                //Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
 
             }
         });
