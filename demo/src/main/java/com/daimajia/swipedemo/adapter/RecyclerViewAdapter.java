@@ -24,6 +24,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+import com.daimajia.swipedemo.Contact;
 import com.daimajia.swipedemo.R;
 import com.daimajia.swipe.implments.SwipeItemMangerImpl;
 
@@ -60,12 +61,22 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
     private Context mContext;
     private ArrayList<String> mDataset;
+    private ArrayList<String> mDatasetphone;
 
     //protected SwipeItemMangerImpl mItemManger = new SwipeItemMangerImpl(this);
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> objects) {
+    public RecyclerViewAdapter(Context context, ArrayList<Contact> objects) {
         this.mContext = context;
-        this.mDataset = objects;
+        ArrayList <String> noms = new ArrayList<String>();
+        ArrayList <String> phones = new ArrayList<String>();
+        for (int i=0; i<objects.size();++i){
+            noms.add(objects.get(i).getFirstName());
+            phones.add(objects.get(i).getPhoneNumber());
+
+        }
+        this.mDataset = noms;
+        this.mDatasetphone = phones;
+
     }
 
     @Override
@@ -110,7 +121,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Message sent " + position, Toast.LENGTH_SHORT).show();
-                Uri phoneNumber = Uri.parse("sms:0606060606");
+                Uri phoneNumber = Uri.parse("sms:"+mDatasetphone.get(position));
                 Intent smsIntent = new Intent(Intent.ACTION_SEND, phoneNumber);
                 view.getContext().startActivity(smsIntent);
             }
@@ -123,7 +134,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             public void onClick(View view) {
 
                 Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
-                Uri phoneNumber = Uri.parse("tel:0606060606");
+                Uri phoneNumber = Uri.parse("tel:"+mDatasetphone.get(position));
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
                 view.getContext().startActivity(callIntent);
 
@@ -150,6 +161,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
 
                 mDataset.remove(position);
+                mDatasetphone.remove(position);
                 notifyItemRangeChanged(position, mDataset.size());
                 notifyDatasetChanged();
                 mItemManger.closeAllItems();

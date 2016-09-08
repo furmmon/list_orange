@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.daimajia.swipe.util.Attributes;
 import com.daimajia.swipedemo.adapter.RecyclerViewAdapter;
 import com.daimajia.swipedemo.adapter.util.DividerItemDecoration;
+import com.daimajia.swipedemo.Contact;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public class RecyclerViewExample extends Activity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
 
-    private ArrayList<String> mDataSet;
+    private ArrayList<Contact> mDataSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class RecyclerViewExample extends Activity {
     };
 
 
-    public  ArrayList<String> getContacts() {
+    public  ArrayList<Contact> getContacts() {
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER};
@@ -135,18 +136,26 @@ public class RecyclerViewExample extends Activity {
 
         int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-        ArrayList<String> phones = new ArrayList<String>();
-        ArrayList<String> contactnames = new ArrayList<String>();
+
+        ArrayList<Contact> contacts = new ArrayList<Contact>();
+
+        //ArrayList<String> phones = new ArrayList<String>();
+        //ArrayList<String> contactnames = new ArrayList<String>();
 
         people.moveToFirst();
         do {
             String name   = people.getString(indexName);
             String number = people.getString(indexNumber);
 
-            phones.add(number);
-            contactnames.add(name);
+            Contact banane = new Contact();
+
+            banane.setFirstName(name);
+            banane.setPhoneNumber(number);
+
+            contacts.add(banane);
         } while (people.moveToNext());
-        return contactnames;
+
+        return contacts;
 
 
     }
