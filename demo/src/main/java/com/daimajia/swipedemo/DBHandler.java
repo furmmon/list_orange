@@ -58,7 +58,7 @@ public class DBHandler extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, contact.getFirstName());
         values.put(KEY_PHONE, contact.getPhoneNumber());
-        values.put(KEY_CONTACTID, contact.getId());
+        values.put(KEY_CONTACTID, contact.getContactId());
         //Ajout de la colonne
         db.insert(TABLE_CONTACTS, null, values);
         db.close();
@@ -77,9 +77,10 @@ public class DBHandler extends SQLiteOpenHelper{
         if(cursor.moveToFirst()){
             do{
                 Contact contact = new Contact();
+                contact.setDbId(cursor.getString(0));
                 contact.setFirstName(cursor.getString(1));
                 contact.setPhoneNumber(cursor.getString(2));
-                contact.setId(cursor.getString(3));
+                contact.setContactId(cursor.getString(3));
 
                 //Ajout du contact à la liste
                 contactList.add(contact);
@@ -93,7 +94,7 @@ public class DBHandler extends SQLiteOpenHelper{
     public void deleteContact(Contact contact){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTACTS,KEY_ID+"=?",
-                new String[]{String.valueOf(contact.getId())});
+                new String[]{String.valueOf(contact.getDbId())});
         db.close();
     }
 

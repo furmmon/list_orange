@@ -77,11 +77,11 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
         String str = "OBJECT";
         for(int i = 0; i<objects.size(); i++){
-            str+="["+objects.get(i).getFirstName()+", "+objects.get(i).getPhoneNumber()+", "+objects.get(i).getId()+"]\n";
+            str+="["+objects.get(i).getFirstName()+", "+objects.get(i).getPhoneNumber()+", "+objects.get(i).getContactId()+"]\n";
         }
         str += "mDATA";
         for(int i = 0; i<mData.size(); i++){
-            str+="["+mData.get(i).getFirstName()+", "+mData.get(i).getPhoneNumber()+", "+mData.get(i).getId()+"]\n";
+            str+="["+mData.get(i).getFirstName()+", "+mData.get(i).getPhoneNumber()+", "+mData.get(i).getContactId()+"]\n";
         }
 
         Log.v("STRING",str);
@@ -171,9 +171,8 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 // Code pour aller vers un contact en particulier
 
                 Intent goContactIntent = new Intent(Intent.ACTION_VIEW);
-                String contactID = mData.get(position).getId();
+                String contactID = mData.get(position).getContactId();
                 Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, contactID);
-                Toast.makeText(mContext,"uri : "+uri, Toast.LENGTH_LONG).show();
                 goContactIntent.setData(uri);
                 view.getContext().startActivity(goContactIntent);
 
@@ -189,7 +188,6 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 intent.addCategory("android.intent.category.DEFAULT");
                 String contactID = mData.get(position).getId();
                 Uri uri = Uri.parse("content://contacts?"+String.valueOf(contactID));
-                Toast.makeText(mContext,"uri : "+uri, Toast.LENGTH_LONG).show();
                 intent.setData(uri);
                 view.getContext().startActivity(intent);
                 */

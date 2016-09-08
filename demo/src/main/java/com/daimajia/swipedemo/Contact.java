@@ -7,8 +7,8 @@ public class Contact {
 
     protected String firstName;
     protected String phoneNumber;
-    protected String id;
-    protected String uri;
+    protected String contactId;
+    protected String dbId;
 
 
     public void Contact(String firstName, String phoneNumber){
@@ -32,20 +32,20 @@ public class Contact {
         this.phoneNumber = s;
     }
 
-    public String getId(){
-        return this.id;
+    public String getContactId(){
+        return this.contactId;
     }
 
-    public void setId(String s){
-        this.id = s;
+    public void setContactId(String s){
+        this.contactId = s;
     }
 
-    /*public String getUri(){
-        return this.uri;
+    public String getDbId(){
+        return this.dbId;
     }
 
-    public void setUri(String s){
-        this.uri = s;
-    }*/
+    public void setDbId(String s){
+        this.dbId = s;
+    }
 
 }
