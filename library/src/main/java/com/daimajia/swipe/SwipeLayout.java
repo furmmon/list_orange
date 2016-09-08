@@ -1225,7 +1225,7 @@ public class SwipeLayout extends FrameLayout {
                 } else {
                     target = surface;
                 }
-                mLongClicklistener.onLongPress(SwipeLayout.this, target == surface);
+                mLongClicklistener.onLongPress(surface);
             }
         }
     }
@@ -1571,7 +1571,7 @@ public class SwipeLayout extends FrameLayout {
     }
 
     public interface LongClickListener {
-        void onLongPress(SwipeLayout layout, boolean surface);
+        void onLongPress(View view);
     }
 
 

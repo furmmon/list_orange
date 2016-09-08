@@ -9,6 +9,7 @@ public class Contact {
     protected String lastName;
     protected String phoneNumber;
     protected String id;
+    protected String uri;
 
 
     public void Contact(String firstName, String lastName, String phoneNumber){
@@ -48,5 +49,13 @@ public class Contact {
     public void setId(String s){
         this.id = s;
     }
+
+    /*public String getUri(){
+        return this.uri;
+    }
+
+    public void setUri(String s){
+        this.uri = s;
+    }*/
 
 }

@@ -1,8 +1,12 @@
 package com.daimajia.swipedemo.adapter;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -31,6 +35,8 @@ import com.daimajia.swipe.implments.SwipeItemMangerImpl;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapter.SimpleViewHolder> {
+
+    private final static int PICK_CONTACT = 1;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
@@ -69,11 +75,26 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         this.mContext = context;
         this.mData = objects;
 
+        String str = "OBJECT";
+        for(int i = 0; i<objects.size(); i++){
+            str+="["+objects.get(i).getFirstName()+", "+objects.get(i).getLastName()+", "+objects.get(i).getPhoneNumber()+", "+objects.get(i).getId()+"]\n";
+        }
+        str += "mDATA";
+        for(int i = 0; i<mData.size(); i++){
+            str+="["+mData.get(i).getFirstName()+", "+mData.get(i).getLastName()+", "+mData.get(i).getPhoneNumber()+", "+mData.get(i).getId()+"]\n";
+        }
+
+        Log.v("STRING",str);
+
         ArrayList <String> noms = new ArrayList<String>();
         for (int i=0; i<objects.size();++i){
             noms.add(objects.get(i).getFirstName());
         }
         this.mDataset = noms;
+
+        //Log.v("mDataset : ",mDataset.toString());
+        //Log.v("mData : ",mData.toString());
+
 
     }
 
@@ -120,7 +141,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             public void onClick(View view) {
                 Toast.makeText(mContext, "Message sent " + position, Toast.LENGTH_SHORT).show();
                 Uri phoneNumber = Uri.parse("sms:"+mData.get(position).getPhoneNumber());
-                Intent smsIntent = new Intent(Intent.ACTION_SEND, phoneNumber);
+                Intent smsIntent = new Intent(Intent.ACTION_VIEW, phoneNumber);
                 view.getContext().startActivity(smsIntent);
             }
         });
@@ -145,10 +166,34 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
         viewHolder.swipeLayout.setOnLongClickListener(new SwipeLayout.LongClickListener() {
 
-            public void onLongPress(SwipeLayout layout, boolean surface) {
-                //Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                //this.getContext().startActivityForResult(intent, PICK_CONTACT);
-                Toast.makeText(mContext,"Long click "+position, Toast.LENGTH_LONG).show();
+            public void onLongPress(View view) {
+
+                // Code pour aller vers un contact en particulier
+                // MAIS CE CODE NE FONCTIONNE PAS (ENCORE !)
+                /*
+                Intent goContactIntent = new Intent(Intent.ACTION_VIEW);
+                String contactID = mData.get(position).getId();
+                Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, contactID);
+                Toast.makeText(mContext,"uri : "+uri, Toast.LENGTH_LONG).show();
+                goContactIntent.setData(uri);
+                view.getContext().startActivity(goContactIntent);
+                */
+
+
+                // Code pour aller vers contact
+                // Mais pas pour aller sur un profil en particulier
+
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.android.contacts", "com.android.contacts.DialtactsContactsEntryActivity"));
+                intent.setAction("android.intent.action.MAIN");
+                intent.addCategory("android.intent.category.LAUNCHER");
+                intent.addCategory("android.intent.category.DEFAULT");
+                String contactID = mData.get(position).getId();
+                Uri uri = Uri.parse("content://contacts?"+String.valueOf(contactID));
+                Toast.makeText(mContext,"uri : "+uri, Toast.LENGTH_LONG).show();
+                intent.setData(uri);
+                view.getContext().startActivity(intent);
+
             }
         });
 
@@ -180,6 +225,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
     public int getSwipeLayoutResourceId(int position) {
         return R.id.swipe;
     }
+
 }
 
 
