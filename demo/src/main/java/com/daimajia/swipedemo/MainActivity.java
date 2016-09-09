@@ -43,6 +43,9 @@ public class MainActivity extends Activity {
 
     private ArrayList<Contact> mDataSet;
 
+    // Les contacts issus de la base de données du téléphone
+    private ArrayList<Contact> contactsFromPhoneDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,15 @@ public class MainActivity extends Activity {
         /* Listeners */
         recyclerView.setOnScrollListener(onScrollListener);
 
+        // Lancement de la recherche des changements dans les contacts
+
+        // Contacts issus de la base de données du téléphone
+        contactsFromPhoneDatabase = ChangesDetector.getContactsFromPhoneDatabase(this.getApplicationContext());
+        Log.v("Contacts from PhoneDB",contactsFromPhoneDatabase.toString());
+
+        // Contacts issus de la base de données de l'application
+
+
 
 
     }
@@ -105,7 +117,7 @@ public class MainActivity extends Activity {
 
 
 
-    //Réccupération de la liste de contact
+    //Récupération de la liste de contact
 
 
     public  ArrayList<Contact> getContacts() {
