@@ -16,6 +16,13 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
+    public void Contact(Contact contact){
+        this.firstName = contact.getFirstName();
+        this.phoneNumber = contact.getPhoneNumber();
+        this.contactId = contact.getContactId();
+        this.dbId = null;
+    }
+
     public String getFirstName(){
         return this.firstName;
     }

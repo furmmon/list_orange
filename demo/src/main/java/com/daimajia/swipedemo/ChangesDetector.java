@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import com.daimajia.swipedemo.Contact;
 
 /**
  * Created by vincenthoulbreque on 09/09/16.
@@ -70,8 +71,28 @@ public class ChangesDetector {
         return contactsFromApplicationDatabase;
     }
 
+    /**
+     *
+     * @param id
+     * @param contacts
+     * @return l'indice du contact avec l'id dans la liste contacts
+     */
+    public static int getIndexOfContactInDatabase(String id, ArrayList<Contact> contacts){
+        int indexOfId = -1;
+        for(int i = 0; i<contacts.size();i++){
+            if(contacts.get(i).getContactId().equals(id)){
+                // Si il y existe un contact dans contacts avec l'id :
+                indexOfId = i;
+            }
+        }
+
+        return indexOfId;
+    }
+
     /*
      * Retourne la liste des contacts de la BdD créée par l'application ORANGE
+     * // TODO Les contacts sont comparés grâce à leur ID dans la BdD de Contacts
+     * // TODO On suppose qu'il n'y a pas de doublon
      */
     public static boolean compareAndUpdateDatabases(Context context, ArrayList<Contact> contactsFromApplicationContact, ArrayList<Contact> contactsFromApplication){
         /**
@@ -81,9 +102,12 @@ public class ChangesDetector {
          * @return : true si il y a eu un update de la BdD, false sinon
          */
 
-        ArrayList<Contact> contactsUpdated; // Contacts de l'application Contacts qui ont été modifiés
-        ArrayList<Contact> contactsCreated; // Contacts de l'application Contacts qui ont été créés
-        ArrayList<Contact> contactsDeleted; // Contacts de l'application Contacts qui ont été supprimés
+        ArrayList<Contact> contactsUpdated = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été modifiés
+        ArrayList<Contact> contactsCreated = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été créés
+        ArrayList<Contact> contactsDeleted = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été supprimés
+
+        ArrayList<Contact> remainingContactsFromApplicationContact = new ArrayList<Contact>(contactsFromApplicationContact);
+        ArrayList<Contact> remainingContactsFromApplication = new ArrayList<Contact>(contactsFromApplication);
 
         // Contacts de la BdD de Contacts
         /*protected String firstName;
@@ -98,13 +122,47 @@ public class ChangesDetector {
         public static final String KEY_CONTACT_PHONE="phone";
         public static final String KEY_CONTACT_CONTACTID="contactid";*/
 
-        for(int i = 0; i<contactsFromApplicationContact.size(); i++){
+        int indexOfContactInDatabase = 0;
+        int j = 0;
 
+        //while(remainingContactsFromApplicationContact.size() != 0){
+        while(remainingContactsFromApplicationContact.size() != j){
+
+            // vaut l'indice du contact dans la base de données Orange
+            // -1 si il est absent de la base de données Orange
+            indexOfContactInDatabase = getIndexOfContactInDatabase(remainingContactsFromApplicationContact.get(0).getContactId(), remainingContactsFromApplication);
+
+            if(indexOfContactInDatabase == -1){
+                // Si le contact de l'application Contacts n'est pas dans la base de données ORANGE
+                // le rajouter
+                contactsCreated.add(remainingContactsFromApplicationContact.get(0));
+            }
+            else{
+                // Contacts update ou deleted ou ni modifiés, ni créés, ni supprimés
+                // TODO
+            }
+            j++;
+        }
+
+        // Communication avec la base de données de l'application ORANGE
+        DBHandler db = new DBHandler(context);
+
+
+        // Modifier les contacts déjà existants
+        // TODO
+
+        // Gérer les contacts supprimés
+        // TODO
+
+
+        // Insérer les contacts nouvellement créés
+
+        for(int i = 0; i<contactsCreated.size(); i++){
+            db.addContact(contactsCreated.get(i));
         }
 
 
-
-
+        return true;
 
     }
 
@@ -119,8 +177,9 @@ public class ChangesDetector {
 
         // Comparer les 2 listes de contacts et update la liste des contacts de la BdD de ORANGE
 
+        Boolean bool = compareAndUpdateDatabases(context, contactsFromPhoneDatabase,  contactsFromApplicationDatabase);
 
-
+        return bool;
     }
 
 
