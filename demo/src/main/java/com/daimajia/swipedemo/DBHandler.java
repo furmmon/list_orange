@@ -30,7 +30,7 @@ public class DBHandler extends SQLiteOpenHelper{
     public static final String KEY_CONTACT_ID="id_contact_db";
     public static final String KEY_CONTACT_NAME="name";
     public static final String KEY_CONTACT_PHONE="phone";
-    public static final String KEY_CONTACT_CONTACTID="contactid";
+    public static final String KEY_CONTACT_CONTACTID="contactid";// id du contact dans la BdD de l'appli Contacts
 
 
     //Nom table SMS/MMS

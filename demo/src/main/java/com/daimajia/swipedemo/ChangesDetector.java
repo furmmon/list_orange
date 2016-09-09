@@ -14,8 +14,11 @@ import java.util.ArrayList;
 /**
  * Created by vincenthoulbreque on 09/09/16.
  *
- * Observateur : il va écouter les changements qui ont lieu dans les contacts
+ * Analyse les changements qui ont lieu dans les contacts
+ * entre l'application Contacts et la BdD créée
  */
+
+
 public class ChangesDetector {
 
     public static ArrayList<Contact> getContactsFromPhoneDatabase(Context context) {
@@ -54,6 +57,70 @@ public class ChangesDetector {
         } while (people.moveToNext());
 
         return contacts;
+    }
+
+    /*
+     * Retourne la liste des contacts de la BdD créée par l'application ORANGE
+     */
+    public static ArrayList<Contact> getContactsFromApplicationDatabase(Context context){
+        DBHandler dbHandler = new DBHandler(context);
+
+        ArrayList<Contact> contactsFromApplicationDatabase = dbHandler.getAllContacts();
+
+        return contactsFromApplicationDatabase;
+    }
+
+    /*
+     * Retourne la liste des contacts de la BdD créée par l'application ORANGE
+     */
+    public static boolean compareAndUpdateDatabases(Context context, ArrayList<Contact> contactsFromApplicationContact, ArrayList<Contact> contactsFromApplication){
+        /**
+         * @param context : context de l'activité
+         * @param contactsFromApplicationContact : liste des contacts issue de la BdD de l'application Contacts
+         * @param : contactsFromApplication : liste des contacts issue de la BdD de l'application ORANGE
+         * @return : true si il y a eu un update de la BdD, false sinon
+         */
+
+        ArrayList<Contact> contactsUpdated; // Contacts de l'application Contacts qui ont été modifiés
+        ArrayList<Contact> contactsCreated; // Contacts de l'application Contacts qui ont été créés
+        ArrayList<Contact> contactsDeleted; // Contacts de l'application Contacts qui ont été supprimés
+
+        // Contacts de la BdD de Contacts
+        /*protected String firstName;
+        protected String phoneNumber;
+        protected String contactId;
+        protected String dbId;*/
+
+
+        // Contacts de la BdD d'ORANGE
+        /*public static final String KEY_CONTACT_ID="id_contact_db";
+        public static final String KEY_CONTACT_NAME="name";
+        public static final String KEY_CONTACT_PHONE="phone";
+        public static final String KEY_CONTACT_CONTACTID="contactid";*/
+
+        for(int i = 0; i<contactsFromApplicationContact.size(); i++){
+
+        }
+
+
+
+
+
+    }
+
+
+    public static boolean updateApplicationDatabase(Context context){
+
+        // Les contacts de la BdD de l'application Contacts
+        ArrayList<Contact> contactsFromPhoneDatabase = getContactsFromPhoneDatabase(context);
+
+        // Les contacts de la BdD de l'application Orange
+        ArrayList<Contact> contactsFromApplicationDatabase = getContactsFromApplicationDatabase(context);
+
+        // Comparer les 2 listes de contacts et update la liste des contacts de la BdD de ORANGE
+
+
+
     }
 
 

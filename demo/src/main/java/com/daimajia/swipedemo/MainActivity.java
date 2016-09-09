@@ -83,6 +83,10 @@ public class MainActivity extends Activity {
 
         // Lancement de la recherche des changements dans les contacts
 
+        // Update de la BdD de l'application
+
+        ChangesDetector.updateApplicationDatabase(this.getApplicationContext());
+
         // Contacts issus de la base de données du téléphone
         contactsFromPhoneDatabase = ChangesDetector.getContactsFromPhoneDatabase(this.getApplicationContext());
         Log.v("Contacts from PhoneDB",contactsFromPhoneDatabase.toString());
