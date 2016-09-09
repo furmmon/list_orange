@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator;
 
-public class RecyclerViewExample extends Activity {
+public class MainActivity extends Activity {
 
     /**
      * RecyclerView: The new recycler view replaces the list view. Its more modular and therefore we
@@ -58,7 +58,7 @@ public class RecyclerViewExample extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getActionBar();
             if (actionBar != null) {
-                actionBar.setTitle("RecyclerView");
+                actionBar.setTitle("Liste des contacts");
             }
         }
 
@@ -79,6 +79,7 @@ public class RecyclerViewExample extends Activity {
         recyclerView.setOnScrollListener(onScrollListener);
 
 
+
     }
 
     /**
@@ -97,6 +98,10 @@ public class RecyclerViewExample extends Activity {
             // Could hide open views here if you wanted. //
         }
     };
+
+
+
+
 
 
 
@@ -131,7 +136,7 @@ public class RecyclerViewExample extends Activity {
 
             contact1.setFirstName(name);
             contact1.setPhoneNumber(number);
-            contact1.setId(contactid);
+            contact1.setContactId(contactid);
 
 
             contacts.add(contact1);
