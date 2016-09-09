@@ -89,10 +89,28 @@ public class ChangesDetector {
         return indexOfId;
     }
 
+    /**
+     * Compare deux contacts selon leur numéro de téléphone et leur nom
+     * @param contact1
+     * @param contact2
+     * @return true si les contacts ont même nom et n° de tel, false sinon
+     */
+
+    // TODO : un même numéro de téléphone mais écrit différemment (ex: +33 (0)... et 0...)
+    // TODO : devront être traités
+    public static boolean areDifferent(Contact contact1, Contact contact2){
+
+        boolean namesBool = contact1.getFirstName().equals(contact2.getFirstName());
+        boolean phoneNumber = contact1.getPhoneNumber().equals(contact2.getPhoneNumber());
+
+        return (namesBool && phoneNumber);
+    }
+
     /*
      * Retourne la liste des contacts de la BdD créée par l'application ORANGE
      * // TODO Les contacts sont comparés grâce à leur ID dans la BdD de Contacts
      * // TODO On suppose qu'il n'y a pas de doublon
+     * // TODO Gérer les contacts supprimés puis remis ?
      */
     public static boolean compareAndUpdateDatabases(Context context, ArrayList<Contact> contactsFromApplicationContact, ArrayList<Contact> contactsFromApplication){
         /**
@@ -102,6 +120,7 @@ public class ChangesDetector {
          * @return : true si il y a eu un update de la BdD, false sinon
          */
 
+        ArrayList<Contact> contactsToUpdate = new ArrayList<Contact>(); // Contacts de l'application ORANGE qui ont été modifiés dans l'application Contacts
         ArrayList<Contact> contactsUpdated = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été modifiés
         ArrayList<Contact> contactsCreated = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été créés
         ArrayList<Contact> contactsDeleted = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été supprimés
@@ -124,9 +143,10 @@ public class ChangesDetector {
 
         int indexOfContactInDatabase = 0;
         int j = 0;
+        Boolean modification;
+        Contact contact = new Contact();
 
-        //while(remainingContactsFromApplicationContact.size() != 0){
-        while(remainingContactsFromApplicationContact.size() != j){
+        while(j != remainingContactsFromApplicationContact.size()){
 
             // vaut l'indice du contact dans la base de données Orange
             // -1 si il est absent de la base de données Orange
@@ -134,13 +154,26 @@ public class ChangesDetector {
 
             if(indexOfContactInDatabase == -1){
                 // Si le contact de l'application Contacts n'est pas dans la base de données ORANGE
-                // le rajouter
+                // le rajouter dans la base de données ORANGE
                 contactsCreated.add(remainingContactsFromApplicationContact.get(0));
             }
-            else{
-                // Contacts update ou deleted ou ni modifiés, ni créés, ni supprimés
-                // TODO
+            else {
+                // Tester si il y a des modifications
+                if(areDifferent(remainingContactsFromApplication.get(indexOfContactInDatabase), remainingContactsFromApplicationContact.get(j))){
+                    // Si il y a des modifications
+                    contact.setFirstName(remainingContactsFromApplication.get(indexOfContactInDatabase).getFirstName());
+                    contact.setPhoneNumber(remainingContactsFromApplication.get(indexOfContactInDatabase).getPhoneNumber());
+                    contact.setDbId(remainingContactsFromApplication.get(indexOfContactInDatabase).getDbId());
+                    contact.setContactId(remainingContactsFromApplication.get(indexOfContactInDatabase).getContactId());
+                    contactsUpdated.add(contact);
+                    // L'ancien contact de l'application ORANGE est rajouté pour entrer en param de db.modify
+                    contactsToUpdate.add(remainingContactsFromApplication.get(indexOfContactInDatabase));
+                }else{
+                    // Si le contact n'a ni été créé ni été modifié
+                }
+
             }
+
             j++;
         }
 
@@ -150,6 +183,10 @@ public class ChangesDetector {
 
         // Modifier les contacts déjà existants
         // TODO
+        for(int i = 0; i<contactsUpdated.size(); i++){
+            //                       nouveauContact, ancienContact
+            db.modifyContact(contactsUpdated.get(i), contactsToUpdate.get(i));
+        }
 
         // Gérer les contacts supprimés
         // TODO
