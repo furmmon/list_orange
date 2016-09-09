@@ -22,6 +22,8 @@ import com.daimajia.swipedemo.Contact;
 
 public class ChangesDetector {
 
+    protected static DBHandler db;
+
     public static ArrayList<Contact> getContactsFromPhoneDatabase(Context context) {
         //Adresse de la table dans la base de donnée
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
@@ -64,9 +66,11 @@ public class ChangesDetector {
      * Retourne la liste des contacts de la BdD créée par l'application ORANGE
      */
     public static ArrayList<Contact> getContactsFromApplicationDatabase(Context context){
-        DBHandler dbHandler = new DBHandler(context);
+        db = new DBHandler(context);
 
-        ArrayList<Contact> contactsFromApplicationDatabase = dbHandler.getAllContacts();
+        db.resetContacts();
+
+        ArrayList<Contact> contactsFromApplicationDatabase = db.getAllContacts();
 
         return contactsFromApplicationDatabase;
     }
@@ -146,16 +150,18 @@ public class ChangesDetector {
         Boolean modification;
         Contact contact = new Contact();
 
+
+
         while(j != remainingContactsFromApplicationContact.size()){
 
             // vaut l'indice du contact dans la base de données Orange
             // -1 si il est absent de la base de données Orange
-            indexOfContactInDatabase = getIndexOfContactInDatabase(remainingContactsFromApplicationContact.get(0).getContactId(), remainingContactsFromApplication);
+            indexOfContactInDatabase = getIndexOfContactInDatabase(remainingContactsFromApplicationContact.get(j).getContactId(), remainingContactsFromApplication);
 
             if(indexOfContactInDatabase == -1){
                 // Si le contact de l'application Contacts n'est pas dans la base de données ORANGE
                 // le rajouter dans la base de données ORANGE
-                contactsCreated.add(remainingContactsFromApplicationContact.get(0));
+                contactsCreated.add(remainingContactsFromApplicationContact.get(j));
             }
             else {
                 // Tester si il y a des modifications
@@ -163,7 +169,6 @@ public class ChangesDetector {
                     // Si il y a des modifications
                     contact.setFirstName(remainingContactsFromApplication.get(indexOfContactInDatabase).getFirstName());
                     contact.setPhoneNumber(remainingContactsFromApplication.get(indexOfContactInDatabase).getPhoneNumber());
-                    contact.setDbId(remainingContactsFromApplication.get(indexOfContactInDatabase).getDbId());
                     contact.setContactId(remainingContactsFromApplication.get(indexOfContactInDatabase).getContactId());
                     contactsUpdated.add(contact);
                     // L'ancien contact de l'application ORANGE est rajouté pour entrer en param de db.modify
@@ -177,6 +182,9 @@ public class ChangesDetector {
             j++;
         }
 
+        String str = "";
+
+
         // Communication avec la base de données de l'application ORANGE
         DBHandler db = new DBHandler(context);
 
@@ -186,6 +194,7 @@ public class ChangesDetector {
         for(int i = 0; i<contactsUpdated.size(); i++){
             //                       nouveauContact, ancienContact
             db.modifyContact(contactsUpdated.get(i), contactsToUpdate.get(i));
+            str += "Contact modifié : "+contactsUpdated.get(i).getFirstName()+","+contactsUpdated.get(i).getPhoneNumber();
         }
 
         // Gérer les contacts supprimés
@@ -196,7 +205,10 @@ public class ChangesDetector {
 
         for(int i = 0; i<contactsCreated.size(); i++){
             db.addContact(contactsCreated.get(i));
+            str += "Nouveau contact : "+contactsCreated.get(i).getFirstName()+","+contactsCreated.get(i).getPhoneNumber();
         }
+
+        Log.v("CHANGES IN DB ",str);
 
 
         return true;
