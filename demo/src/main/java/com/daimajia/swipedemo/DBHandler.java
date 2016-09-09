@@ -39,6 +39,7 @@ public class DBHandler extends SQLiteOpenHelper{
     public static final String KEY_SMSMMS_ID="id_smsmms_db";
     public static final String KEY_SMSMMS_ORIGINE="origine";
     public static final String KEY_SMSMMS_CONTACTID="contactid";
+    public static final String KEY_SMSMMS_DATE="date";
 
 
     //Nom table Appel
@@ -48,6 +49,8 @@ public class DBHandler extends SQLiteOpenHelper{
     public static final String KEY_APPEL_CONTACTID="contactid";
     public static final String KEY_APPEL_ORIGINE="origine";
     public static final String KEY_APPEL_DUREE="duree";
+    public static final String KEY_APPEL_DATE="date";
+
 
 
 
@@ -67,14 +70,14 @@ public class DBHandler extends SQLiteOpenHelper{
         //Création table sms/mms
         String CREATE_SMSMMS_TABLE="CREATE TABLE"+TABLE_SMSMMS+"("
                 +KEY_SMSMMS_ID+"INTEGER PRIMARY KEY,"+KEY_SMSMMS_ORIGINE+"TEXT,"+
-                KEY_SMSMMS_CONTACTID+"TEXT"+")";
+                KEY_SMSMMS_CONTACTID+"TEXT"+","+KEY_SMSMMS_DATE+"TEXT"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
 
 
         //Création table appel
         String CREATE_APPEL_TABLE="CREATE TABLE"+TABLE_APPEL+"("
                 +KEY_APPEL_ID+"INTEGER PRIMARY KEY,"+KEY_APPEL_CONTACTID+"TEXT,"+
-                KEY_APPEL_ORIGINE+"TEXT,"+KEY_APPEL_DUREE+"TEXT"+")";
+                KEY_APPEL_ORIGINE+"TEXT,"+KEY_APPEL_DUREE+"TEXT,"+KEY_SMSMMS_DATE+"TEXT"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
 
 
@@ -109,6 +112,7 @@ public class DBHandler extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         values.put(KEY_SMSMMS_ORIGINE, smsmms.getOrigine());
         values.put(KEY_SMSMMS_CONTACTID, smsmms.getContactId());
+        values.put(KEY_SMSMMS_DATE, smsmms.getDate());
         //Ajout de la colonne
         db.insert(TABLE_SMSMMS, null, values);
         db.close();
@@ -122,6 +126,7 @@ public class DBHandler extends SQLiteOpenHelper{
         values.put(KEY_APPEL_ORIGINE, appel.getOrigine());
         values.put(KEY_APPEL_CONTACTID, appel.getContactId());
         values.put(KEY_APPEL_DUREE, appel.getDuree());
+        values.put(KEY_APPEL_DATE, appel.getDate());
 
         //Ajout de la colonne
         db.insert(TABLE_APPEL, null, values);

@@ -8,6 +8,7 @@ public class Appel {
     protected String origine;
     protected String contactid;
     protected String duree;
+    protected String date;
 
 
     public String getOrigine(){
@@ -32,5 +33,13 @@ public class Appel {
 
     public void setDuree(String s){
         this.duree = s;
+    }
+
+    public String getDate(){
+        return this.date;
+    }
+
+    public void setDate(String s){
+        this.date = s;
     }
 }

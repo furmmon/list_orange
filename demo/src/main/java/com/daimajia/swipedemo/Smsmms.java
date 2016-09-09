@@ -6,6 +6,7 @@ package com.daimajia.swipedemo;
 public class Smsmms {
     protected String origine;
     protected String contactid;
+    protected String date;
 
 
     public String getOrigine(){
@@ -22,5 +23,13 @@ public class Smsmms {
 
     public void setContactId(String s){
         this.contactid = s;
+    }
+
+    public String getDate(){
+        return this.date;
+    }
+
+    public void setDate(String s){
+        this.date = s;
     }
 }
