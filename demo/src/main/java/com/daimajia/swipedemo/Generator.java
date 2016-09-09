@@ -30,7 +30,10 @@ public class Generator {
 
     public ArrayList<Contact> getList1() {
         if (contacts.size() > 10) {
-            return (ArrayList<Contact>) contacts.subList(1, 10);
+            for (int i=0; i<10;i++){
+                contactlist1.add(contacts.get(i));
+            }
+            return contactlist1;
         } else {
             return contacts;
         }
