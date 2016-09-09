@@ -113,14 +113,12 @@ public class ChangesDetector {
         return !(namesBool && phoneNumber);
     }
 
-    /*
-     * Retourne la liste des contacts de la BdD créée par l'application ORANGE
-     * // TODO Les contacts sont comparés grâce à leur ID dans la BdD de Contacts
-     * // TODO On suppose qu'il n'y a pas de doublon
-     * // TODO Gérer les contacts supprimés puis remis ?
-     */
     public static boolean compareAndUpdateDatabases(Context context, ArrayList<Contact> contactsFromApplicationContact, ArrayList<Contact> contactsFromApplication){
         /**
+         * Retourne la liste des contacts de la BdD créée par l'application ORANGE
+         * // TODO Les contacts sont comparés grâce à leur ID dans la BdD de Contacts
+         * // TODO On suppose qu'il n'y a pas de doublon
+         * // TODO Gérer les contacts supprimés puis remis ?
          * @param context : context de l'activité
          * @param contactsFromApplicationContact : liste des contacts issue de la BdD de l'application Contacts
          * @param : contactsFromApplication : liste des contacts issue de la BdD de l'application ORANGE
