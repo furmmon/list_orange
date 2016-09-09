@@ -17,16 +17,37 @@ import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper{
     //Version base de donnée
-    private static final int DATABASE_VERSION=1;
+    public static final int DATABASE_VERSION=1;
+
     //Nom base de donnée
-    private static final String DATABASE_NAME="contacts";
-    //Nom table
-    private static final String TABLE_CONTACTS="contacts";
+    public static final String DATABASE_NAME="ContactPertinent";
+
+
+
+    //Nom table Contact
+    public static final String TABLE_CONTACTS="contacts";
     //Nom Colonnes de la table contacts
-    private static final String KEY_ID="id";
-    private static final String KEY_NAME="name";
-    private static final String KEY_PHONE="phone";
-    private static final String KEY_CONTACTID="contactid";
+    public static final String KEY_CONTACT_ID="id_contact_db";
+    public static final String KEY_CONTACT_NAME="name";
+    public static final String KEY_CONTACT_PHONE="phone";
+    public static final String KEY_CONTACT_CONTACTID="contactid";
+
+
+    //Nom table SMS/MMS
+    public static final String TABLE_SMSMMS="smsmms";
+    //Nom Colonnes de la table contacts
+    public static final String KEY_SMSMMS_ID="id_smsmms_db";
+    public static final String KEY_SMSMMS_ORIGINE="origine";
+    public static final String KEY_SMSMMS_CONTACTID="contactid";
+
+
+    //Nom table Appel
+    public static final String TABLE_APPEL="appel";
+    //Nom Colonnes de la table contacts
+    public static final String KEY_APPEL_ID="id_contact_db";
+    public static final String KEY_APPEL_CONTACTID="contactid";
+    public static final String KEY_APPEL_ORIGINE="origine";
+    public static final String KEY_APPEL_DUREE="duree";
 
 
 
@@ -36,10 +57,27 @@ public class DBHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
+
+        //Création table contact
         String CREATE_CONTACTS_TABLE="CREATE TABLE"+TABLE_CONTACTS+"("
-                +KEY_ID+"INTEGER PRIMARY KEY,"+KEY_NAME+"TEXT,"+KEY_PHONE
-                +"TEXT"+KEY_CONTACTID+"TEXT"+")";
+                +KEY_CONTACT_ID+"INTEGER PRIMARY KEY,"+KEY_CONTACT_NAME+"TEXT,"+KEY_CONTACT_PHONE
+                +"TEXT"+KEY_CONTACT_CONTACTID+"TEXT"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
+
+        //Création table sms/mms
+        String CREATE_SMSMMS_TABLE="CREATE TABLE"+TABLE_SMSMMS+"("
+                +KEY_SMSMMS_ID+"INTEGER PRIMARY KEY,"+KEY_SMSMMS_ORIGINE+"TEXT,"+
+                KEY_SMSMMS_CONTACTID+"TEXT"+")";
+        db.execSQL(CREATE_CONTACTS_TABLE);
+
+
+        //Création table appel
+        String CREATE_APPEL_TABLE="CREATE TABLE"+TABLE_APPEL+"("
+                +KEY_APPEL_ID+"INTEGER PRIMARY KEY,"+KEY_APPEL_CONTACTID+"TEXT,"+
+                KEY_APPEL_ORIGINE+"TEXT,"+KEY_APPEL_DUREE+"TEXT"+")";
+        db.execSQL(CREATE_CONTACTS_TABLE);
+
+
     }
 
     @Override
@@ -50,19 +88,49 @@ public class DBHandler extends SQLiteOpenHelper{
     }
 
 
-
+    //Insertion dans la Base de donnée
 
     //Inserer nouveau contact
     public void addContact(Contact contact){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getFirstName());
-        values.put(KEY_PHONE, contact.getPhoneNumber());
-        values.put(KEY_CONTACTID, contact.getContactId());
+        values.put(KEY_CONTACT_NAME, contact.getFirstName());
+        values.put(KEY_CONTACT_PHONE, contact.getPhoneNumber());
+        values.put(KEY_CONTACT_CONTACTID, contact.getContactId());
         //Ajout de la colonne
         db.insert(TABLE_CONTACTS, null, values);
         db.close();
     }
+
+
+    //Inserer nouveau sms/mms
+    public void addSMSMMS(Smsmms smsmms){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_SMSMMS_ORIGINE, smsmms.getOrigine());
+        values.put(KEY_SMSMMS_CONTACTID, smsmms.getContactId());
+        //Ajout de la colonne
+        db.insert(TABLE_SMSMMS, null, values);
+        db.close();
+    }
+
+
+    //Inserer nouvel appel
+    public void addAppel(Appel appel){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_APPEL_ORIGINE, appel.getOrigine());
+        values.put(KEY_APPEL_CONTACTID, appel.getContactId());
+        values.put(KEY_APPEL_DUREE, appel.getDuree());
+
+        //Ajout de la colonne
+        db.insert(TABLE_APPEL, null, values);
+        db.close();
+    }
+
+
+
+    //Retirer information de la Base de donnée
 
 
     //Obtenir la list des contacts
