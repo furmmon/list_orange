@@ -4,6 +4,7 @@ package com.daimajia.swipedemo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -30,7 +31,7 @@ public class DBHandler extends SQLiteOpenHelper{
     public static final String KEY_CONTACT_ID="id_contact_db";
     public static final String KEY_CONTACT_NAME="name";
     public static final String KEY_CONTACT_PHONE="phone";
-    public static final String KEY_CONTACT_CONTACTID="contactid";// id du contact dans la BdD de l'appli Contacts
+    public static final String KEY_CONTACT_CONTACTID="contactid";
 
 
     //Nom table SMS/MMS
@@ -60,25 +61,28 @@ public class DBHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
+        try {
+            //Création table contact
+            String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + " ("
+                    + KEY_CONTACT_ID + " INTEGER PRIMARY KEY, " + KEY_CONTACT_NAME + " TEXT," + KEY_CONTACT_PHONE
+                    + " TEXT, " + KEY_CONTACT_CONTACTID + " TEXT" + ")";
+            db.execSQL(CREATE_CONTACTS_TABLE);
 
-        //Création table contact
-        String CREATE_CONTACTS_TABLE="CREATE TABLE"+TABLE_CONTACTS+"("
-                +KEY_CONTACT_ID+"INTEGER PRIMARY KEY,"+KEY_CONTACT_NAME+"TEXT,"+KEY_CONTACT_PHONE
-                +"TEXT"+KEY_CONTACT_CONTACTID+"TEXT"+")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
-
-        //Création table sms/mms
-        String CREATE_SMSMMS_TABLE="CREATE TABLE"+TABLE_SMSMMS+"("
-                +KEY_SMSMMS_ID+"INTEGER PRIMARY KEY,"+KEY_SMSMMS_ORIGINE+"TEXT,"+
-                KEY_SMSMMS_CONTACTID+"TEXT"+","+KEY_SMSMMS_DATE+"TEXT"+")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+            //Création table sms/mms
+            String CREATE_SMSMMS_TABLE = "CREATE TABLE " + TABLE_SMSMMS + " ("
+                    + KEY_SMSMMS_ID + " INTEGER PRIMARY KEY," + KEY_SMSMMS_ORIGINE + " TEXT, " +
+                    KEY_SMSMMS_CONTACTID + " TEXT" + ", " + KEY_SMSMMS_DATE + " TEXT" + " )";
+            db.execSQL(CREATE_CONTACTS_TABLE);
 
 
-        //Création table appel
-        String CREATE_APPEL_TABLE="CREATE TABLE"+TABLE_APPEL+"("
-                +KEY_APPEL_ID+"INTEGER PRIMARY KEY,"+KEY_APPEL_CONTACTID+"TEXT,"+
-                KEY_APPEL_ORIGINE+"TEXT,"+KEY_APPEL_DUREE+"TEXT,"+KEY_SMSMMS_DATE+"TEXT"+")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+            //Création table appel
+            String CREATE_APPEL_TABLE = "CREATE TABLE " + TABLE_APPEL + " ("
+                    + KEY_APPEL_ID + " INTEGER PRIMARY KEY, " + KEY_APPEL_CONTACTID + " TEXT, " +
+                    KEY_APPEL_ORIGINE + " TEXT ," + KEY_APPEL_DUREE + " TEXT ," + KEY_SMSMMS_DATE + " TEXT" + ")";
+            db.execSQL(CREATE_CONTACTS_TABLE);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
 
     }
@@ -86,7 +90,7 @@ public class DBHandler extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         //Drop ancienne table si elle existe
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_CONTACTS);
         onCreate(db);
     }
 
@@ -141,7 +145,7 @@ public class DBHandler extends SQLiteOpenHelper{
     //Obtenir la list des contacts
     public ArrayList<Contact> getAllContacts(){
         ArrayList<Contact> contactList = new ArrayList<Contact>();
-        String selectQuery = "SELECT*FROM"+TABLE_CONTACTS;
+        String selectQuery = "SELECT*FROM "+TABLE_CONTACTS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
