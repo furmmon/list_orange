@@ -62,8 +62,10 @@ public class ChangesDetector {
         return contacts;
     }
 
-    /*
+    /**
      * Retourne la liste des contacts de la BdD créée par l'application ORANGE
+     * @param context
+     * @return
      */
     public static ArrayList<Contact> getContactsFromApplicationDatabase(Context context){
         db = new DBHandler(context);
@@ -76,10 +78,11 @@ public class ChangesDetector {
     }
 
     /**
-     *
+     * Cherche l'indice du contact avec un certain id
      * @param id
      * @param contacts
-     * @return l'indice du contact avec l'id dans la liste contacts
+     * @return l'indice du contact avec l'id dans la liste contacts. Si ce contact n'existe pas,
+     *         renvoie -1
      */
     public static int getIndexOfContactInDatabase(String id, ArrayList<Contact> contacts){
         int indexOfId = -1;
@@ -127,7 +130,6 @@ public class ChangesDetector {
         ArrayList<Contact> contactsToUpdate = new ArrayList<Contact>(); // Contacts de l'application ORANGE qui ont été modifiés dans l'application Contacts
         ArrayList<Contact> contactsUpdated = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été modifiés
         ArrayList<Contact> contactsCreated = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été créés
-        ArrayList<Contact> contactsDeleted = new ArrayList<Contact>(); // Contacts de l'application Contacts qui ont été supprimés
 
         ArrayList<Contact> remainingContactsFromApplicationContact = new ArrayList<Contact>(contactsFromApplicationContact);
         ArrayList<Contact> remainingContactsFromApplication = new ArrayList<Contact>(contactsFromApplication);
@@ -160,6 +162,7 @@ public class ChangesDetector {
                     // L'ancien contact de l'application ORANGE est rajouté pour entrer en param de db.modify
                     contactsToUpdate.add(remainingContactsFromApplication.get(indexOfContactInDatabase));
                 }else{
+                    // Si non,
                     // Si le contact n'a ni été créé ni été modifié, ne rien faire
                 }
 
@@ -167,9 +170,6 @@ public class ChangesDetector {
 
             j++;
         }
-
-        String str = "";
-
 
         // Communication avec la base de données de l'application ORANGE
         DBHandler db = new DBHandler(context);
@@ -180,7 +180,6 @@ public class ChangesDetector {
         for(int i = 0; i<contactsUpdated.size(); i++){
             //                       nouveauContact, ancienContact
             db.modifyContact(contactsUpdated.get(i), contactsToUpdate.get(i));
-            str += "Contact modifié : "+contactsUpdated.get(i).getFirstName()+","+contactsUpdated.get(i).getPhoneNumber();
         }
 
         // Gérer les contacts supprimés
@@ -191,16 +190,18 @@ public class ChangesDetector {
 
         for(int i = 0; i<contactsCreated.size(); i++){
             db.addContact(contactsCreated.get(i));
-            str += "Nouveau contact : "+contactsCreated.get(i).getFirstName()+","+contactsCreated.get(i).getPhoneNumber();
         }
-
-        Log.v("CHANGES IN DB ",str);
-
 
         return true;
 
     }
 
+    /**
+     * Compare la base de données de contacts entre Orange et Contacts
+     * Update la Database en conséquence
+     * @param context
+     * @return true si l'update a eu lieu, false sinon
+     */
 
     public static boolean updateApplicationDatabase(Context context){
 
