@@ -138,6 +138,17 @@ public class DBHandler extends SQLiteOpenHelper{
     }
 
 
+    //Modifier contact
+
+    public void modifyContact(Contact newContact, Contact oldContact){
+        deleteContact(oldContact);
+        addContact(newContact);
+    }
+
+
+
+
+
 
     //Retirer information de la Base de donnée
 
