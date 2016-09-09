@@ -186,4 +186,30 @@ public class DBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+
+
+    //Reset database
+
+
+    public void resetContacts(){
+        String selectQuery = "SELECT*FROM "+TABLE_CONTACTS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //boucle pour remplir l'arraylist
+        if(cursor.moveToFirst()){
+            do{
+                Contact contact = new Contact();
+                contact.setDbId(cursor.getString(0));
+                contact.setFirstName(cursor.getString(1));
+                contact.setPhoneNumber(cursor.getString(2));
+                deleteContact(contact);
+
+                //Ajout du contact à la liste
+            } while (cursor.moveToNext());
+        }
+        return ;
+
+    }
 }
