@@ -72,11 +72,6 @@ public class MainActivity extends Activity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
         recyclerView.setItemAnimator(new FadeInLeftAnimator());
 
-        // Adapter:
-        mDataSet = getContacts();
-        mAdapter = new RecyclerViewAdapter(this, mDataSet);
-        ((RecyclerViewAdapter) mAdapter).setMode(Attributes.Mode.Single);
-        recyclerView.setAdapter(mAdapter);
 
         /* Listeners */
         recyclerView.setOnScrollListener(onScrollListener);
@@ -86,6 +81,17 @@ public class MainActivity extends Activity {
         // Update de la BdD de l'application
 
         ChangesDetector.updateApplicationDatabase(this.getApplicationContext());
+
+        // Adapter:
+
+        //Generate data
+        Generator gn = new Generator(getApplicationContext());
+        mDataSet = gn.getList1();
+
+
+        mAdapter = new RecyclerViewAdapter(this, mDataSet);
+        ((RecyclerViewAdapter) mAdapter).setMode(Attributes.Mode.Single);
+        recyclerView.setAdapter(mAdapter);
 
 
 
@@ -111,53 +117,6 @@ public class MainActivity extends Activity {
     };
 
 
-
-
-
-
-
-    //Récupération de la liste de contact
-
-
-    public  ArrayList<Contact> getContacts() {
-        //Adresse de la table dans la base de donnée
-        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-
-        //Récupération des données
-        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.RawContacts.CONTACT_ID};
-
-        //Initialisation du curseur
-        Cursor people = getContentResolver().query(uri, projection, null, null, null);
-
-        int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-        int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-        int indexId = people.getColumnIndex(ContactsContract.RawContacts.CONTACT_ID);
-
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-
-        //Mise en forme des données
-        people.moveToFirst();
-        do {
-            String name   = people.getString(indexName);
-            String number = people.getString(indexNumber);
-            String contactid = people.getString(indexId);
-
-            Contact contact1 = new Contact();
-
-            contact1.setFirstName(name);
-            contact1.setPhoneNumber(number);
-            contact1.setContactId(contactid);
-
-
-            contacts.add(contact1);
-
-        } while (people.moveToNext());
-
-        return contacts;
-
-
-    }
 
 
 }
