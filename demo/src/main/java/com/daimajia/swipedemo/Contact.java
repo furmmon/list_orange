@@ -55,4 +55,8 @@ public class Contact {
         this.dbId = s;
     }
 
+    public String toString(){
+        return this.firstName + ", "+ this.phoneNumber + ", "+ this.contactId + ", "+ this.dbId;
+    }
+
 }

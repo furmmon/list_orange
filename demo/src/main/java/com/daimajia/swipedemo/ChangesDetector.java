@@ -68,7 +68,7 @@ public class ChangesDetector {
     public static ArrayList<Contact> getContactsFromApplicationDatabase(Context context){
         db = new DBHandler(context);
 
-        db.resetContacts();
+        //db.resetContacts();
 
         ArrayList<Contact> contactsFromApplicationDatabase = db.getAllContacts();
 
@@ -107,7 +107,7 @@ public class ChangesDetector {
         boolean namesBool = contact1.getFirstName().equals(contact2.getFirstName());
         boolean phoneNumber = contact1.getPhoneNumber().equals(contact2.getPhoneNumber());
 
-        return (namesBool && phoneNumber);
+        return !(namesBool && phoneNumber);
     }
 
     /*
@@ -132,24 +132,9 @@ public class ChangesDetector {
         ArrayList<Contact> remainingContactsFromApplicationContact = new ArrayList<Contact>(contactsFromApplicationContact);
         ArrayList<Contact> remainingContactsFromApplication = new ArrayList<Contact>(contactsFromApplication);
 
-        // Contacts de la BdD de Contacts
-        /*protected String firstName;
-        protected String phoneNumber;
-        protected String contactId;
-        protected String dbId;*/
-
-
-        // Contacts de la BdD d'ORANGE
-        /*public static final String KEY_CONTACT_ID="id_contact_db";
-        public static final String KEY_CONTACT_NAME="name";
-        public static final String KEY_CONTACT_PHONE="phone";
-        public static final String KEY_CONTACT_CONTACTID="contactid";*/
-
         int indexOfContactInDatabase = 0;
         int j = 0;
-        Boolean modification;
         Contact contact = new Contact();
-
 
 
         while(j != remainingContactsFromApplicationContact.size()){
@@ -166,15 +151,16 @@ public class ChangesDetector {
             else {
                 // Tester si il y a des modifications
                 if(areDifferent(remainingContactsFromApplication.get(indexOfContactInDatabase), remainingContactsFromApplicationContact.get(j))){
-                    // Si il y a des modifications
-                    contact.setFirstName(remainingContactsFromApplication.get(indexOfContactInDatabase).getFirstName());
-                    contact.setPhoneNumber(remainingContactsFromApplication.get(indexOfContactInDatabase).getPhoneNumber());
-                    contact.setContactId(remainingContactsFromApplication.get(indexOfContactInDatabase).getContactId());
+                    // Si oui
+                    // mettre dans le nouveau contact d'Orange les données du nouveau contact de Contacts
+                    contact.setFirstName(remainingContactsFromApplicationContact.get(j).getFirstName());
+                    contact.setPhoneNumber(remainingContactsFromApplicationContact.get(j).getPhoneNumber());
+                    contact.setContactId(remainingContactsFromApplicationContact.get(j).getContactId());
                     contactsUpdated.add(contact);
                     // L'ancien contact de l'application ORANGE est rajouté pour entrer en param de db.modify
                     contactsToUpdate.add(remainingContactsFromApplication.get(indexOfContactInDatabase));
                 }else{
-                    // Si le contact n'a ni été créé ni été modifié
+                    // Si le contact n'a ni été créé ni été modifié, ne rien faire
                 }
 
             }
