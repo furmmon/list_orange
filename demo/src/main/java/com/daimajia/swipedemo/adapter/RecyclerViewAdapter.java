@@ -130,7 +130,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         viewHolder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {
-                Toast.makeText(mContext, "DoubleClick" + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "DoubleClick" + position, Toast.LENGTH_SHORT).show();
             }
         });
         /*
@@ -139,7 +139,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         viewHolder.imagesms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Message sent " + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "Message sent " + position, Toast.LENGTH_SHORT).show();
                 Uri phoneNumber = Uri.parse("sms:"+mData.get(position).getPhoneNumber());
                 Intent smsIntent = new Intent(Intent.ACTION_VIEW, phoneNumber);
                 view.getContext().startActivity(smsIntent);
@@ -151,8 +151,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         viewHolder.imagephone.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "Phone call "+position, Toast.LENGTH_SHORT).show();
                 Uri phoneNumber = Uri.parse("tel:"+mData.get(position).getPhoneNumber());
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
                 view.getContext().startActivity(callIntent);
